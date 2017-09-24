@@ -1,0 +1,119 @@
+version: "3"
+services:
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./tmp/mongo:/data/db"
+    expose:
+      - "27017" 
+
+  postgresql:
+    image: postgres:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./tmp/postgredb:/var/lib/postgresql/data"
+    expose:
+      - "5432"
+  
+  x2crmdummy:
+    image: mysql:5.6
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    expose:
+      - "3306" 
+
+  gamification:
+    image: juja/gamification:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/gamification/application.properties:/data/application.properties"
+    links:
+      - mongo
+    ports:
+      - 8081:8080
+    depends_on:
+      - mongo
+
+  keepers:
+    image: juja/keepers:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/keepers/application.properties:/data/application.properties"
+    links:
+      - mongo
+    ports:
+      - 8082:8080
+    depends_on:
+      - mongo
+  
+  teams:
+    image: juja/teams:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/teams/application.properties:/data/application.properties"
+    links:
+      - mongo
+    ports:
+      - 8083:8080
+    depends_on:
+      - mongo
+
+  users:
+    image: juja/users:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/users/application.properties:/data/application.properties"
+    links:
+      - x2crmdummy
+      - postgresql
+    ports:
+      - 8084:8080
+    depends_on:
+      - postgresql
+      - x2crmdummy 
+  
+  keepers-slack-bot:
+    image: juja/keepers-slack-bot:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/keepers-slack-bot/application.properties:/data/application.properties"
+    links:
+      - keepers
+      - users
+    ports:
+      - 8085:8080
+    depends_on:
+      - keepers
+      - users
+
+  teams-slack-bot:
+    image: juja/teams-slack-bot:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/teams-slack-bot/application.properties:/data/application.properties"
+    links:
+      - teams
+      - users
+    ports:
+      - 8086:8080
+    depends_on:
+      - teams
+      - users
+
+  gamification-slack-bot:
+    image: juja/gamification-slack-bot:latest
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/gamification-slack-bot/application.properties:/data/application.properties"
+    links:
+      - gamification
+      - teams
+      - users
+    ports:
+      - 8087:8080
+    depends_on:
+      - teams
+      - users
+      - gamification
