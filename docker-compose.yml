@@ -3,29 +3,43 @@ services:
 
   mongo:
     image: mongo:latest
+    container_name: mongo
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "./tmp/mongo:/data/db"
+      - "./config/dev/mongo/create-users.js:/docker-entrypoint-initdb.d/create-users.js"
+    environment:
+      MONGO_INITDB_DATABASE: "admin"
     expose:
-      - "27017" 
+      - "27017"
 
   postgresql:
-    image: postgres:latest
+    image: postgres:9.6-alpine
+    container_name: postgresql
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "./tmp/postgredb:/var/lib/postgresql/data"
     expose:
       - "5432"
+    environment:
+      POSTGRES_DB: "users"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "P@ssw0rd"
   
   x2crmdummy:
     image: mysql:5.6
+    container_name: x2crmdummy
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     expose:
       - "3306" 
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootP@ssw0rd"
+      MYSQL_DATABASE: "x2crm"
+      MYSQL_USER: "mysql"
+      MYSQL_PASSWORD: "P@ssw0rd"
 
   gamification:
     image: juja/gamification:latest
+    container_name: gamification
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/dev/gamification/application.properties:/data/application.properties"
@@ -38,6 +52,7 @@ services:
 
   keepers:
     image: juja/keepers:latest
+    container_name: keepers
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/dev/keepers/application.properties:/data/application.properties"
@@ -50,6 +65,7 @@ services:
   
   teams:
     image: juja/teams:latest
+    container_name: teams
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/dev/teams/application.properties:/data/application.properties"
@@ -62,6 +78,7 @@ services:
 
   users:
     image: juja/users:latest
+    container_name: users
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/dev/users/application.properties:/data/application.properties"
@@ -76,6 +93,7 @@ services:
   
   keepers-slack-bot:
     image: juja/keepers-slack-bot:latest
+    container_name: keepers-slack-bot
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/dev/keepers-slack-bot/application.properties:/data/application.properties"
@@ -90,6 +108,7 @@ services:
 
   teams-slack-bot:
     image: juja/teams-slack-bot:latest
+    container_name: teams-slack-bot
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/dev/teams-slack-bot/application.properties:/data/application.properties"
@@ -104,6 +123,7 @@ services:
 
   gamification-slack-bot:
     image: juja/gamification-slack-bot:latest
+    container_name: gamification-slack-bot
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/dev/gamification-slack-bot/application.properties:/data/application.properties"
