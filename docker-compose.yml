@@ -17,6 +17,7 @@ services:
     container_name: postgresql
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/postgresql/create_table_users.sql:/docker-entrypoint-initdb.d/create_table_users.sql:"
     expose:
       - "5432"
     environment:
