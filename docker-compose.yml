@@ -49,6 +49,8 @@ services:
       - mongo
     ports:
       - 8081:8080
+    expose:
+      - "8080"
     depends_on:
       - mongo
 
@@ -62,6 +64,8 @@ services:
       - mongo
     ports:
       - 8082:8080
+    expose:
+      - "8080"  
     depends_on:
       - mongo
   
@@ -75,6 +79,8 @@ services:
       - mongo
     ports:
       - 8083:8080
+    expose:
+      - "8080"    
     depends_on:
       - mongo
 
@@ -89,6 +95,8 @@ services:
       - postgresql
     ports:
       - 8084:8080
+    expose:
+      - "8080"  
     depends_on:
       - postgresql
       - x2crmdummy 
@@ -104,6 +112,8 @@ services:
       - users
     ports:
       - 8085:8080
+    expose:
+      - "8080"  
     depends_on:
       - keepers
       - users
@@ -119,6 +129,8 @@ services:
       - users
     ports:
       - 8086:8080
+    expose:
+      - "8080"    
     depends_on:
       - teams
       - users
@@ -135,7 +147,44 @@ services:
       - users
     ports:
       - 8087:8080
+    expose:
+      - "8080"  
     depends_on:
       - teams
       - users
       - gamification
+
+  web-ui:
+    image: juja/web-ui:latest
+    container_name: web-ui
+    expose:
+      - "80"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro" 
+
+  loadbalancer:
+    image: nginx:stable-alpine
+    container_name: loadbalancer
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/dev/loadbalancer/loadbalancer.conf:/etc/nginx/conf.d/default.conf"
+    ports:
+      - "80:80"
+    links:
+      - web-ui
+      - gamification
+      - keepers
+      - teams
+      - users
+      - gamification-slack-bot
+      - teams-slack-bot
+      - keepers-slack-bot
+    depends_on:
+      - web-ui
+      - gamification
+      - keepers
+      - teams
+      - users
+      - gamification-slack-bot
+      - teams-slack-bot
+      - keepers-slack-bot
