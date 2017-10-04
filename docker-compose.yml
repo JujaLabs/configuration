@@ -6,7 +6,7 @@ services:
     container_name: mongo
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "./config/dev/mongo/create-users.js:/docker-entrypoint-initdb.d/create-users.js"
+      - "./config/dev/mongo/create-users-and-data.js:/docker-entrypoint-initdb.d/create-users-and-data.js"
     environment:
       MONGO_INITDB_DATABASE: "admin"
     expose:

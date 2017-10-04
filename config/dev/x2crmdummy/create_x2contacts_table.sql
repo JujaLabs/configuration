@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS x2crm.x2_contacts (
 );
 
 
-INSERT INTO x2crm.x2_contacts (name,firstName,lastName,skype,lastUpdated,c_gmail,c_slack,c_isStudent,c_uuid) VALUES('Alex','Alex','Batman','Alex',100,'alex@gmail.com','@batman',1,'00000000-0000-0001-0000-000000000002');
+INSERT INTO x2crm.x2_contacts (name,firstName,lastName,skype,lastUpdated,c_gmail,c_slack,c_isStudent,c_uuid) VALUES('Alex','Alex','BatmanNew','Alex',50,'alex@gmail.com','@batman',1,'00000000-0000-0001-0000-000000000002');
 INSERT INTO x2crm.x2_contacts (name,firstName,lastName,skype,lastUpdated,c_gmail,c_slack,c_isStudent,c_uuid) VALUES('Max','Max','Ironman','max.ironman',200,'max@gmail.com','@max',1,'00000000-0000-0001-0000-000000000003');
-INSERT INTO x2crm.x2_contacts (name,firstName,lastName,skype,lastUpdated,c_gmail,c_slack,c_isStudent,c_uuid) VALUES('Sergey','Sergey','Spiderman','sergey.spiderman',250,'sergey@gmail.com','@spiderman',1,'00000000-0000-0001-0000-000000000004');
+INSERT INTO x2crm.x2_contacts (name,firstName,lastName,skype,lastUpdated,c_gmail,c_slack,c_isStudent,c_uuid) VALUES('Sergey','SergeyUpdate','Spiderman','sergey.spiderman',10,'sergey@gmail.com','@spiderman',1,'00000000-0000-0001-0000-000000000004');
+INSERT INTO x2crm.x2_contacts (name,firstName,lastName,skype,lastUpdated,c_gmail,c_slack,c_isStudent,c_uuid) VALUES('Apex','Sergey','Apex','apea.spiderman',1000,'apex@gmail.com','@apex',1,'00000000-0000-0001-0000-000000000005');
+INSERT INTO x2crm.x2_contacts (name,firstName,lastName,skype,lastUpdated,c_gmail,c_slack,c_isStudent,c_uuid) VALUES('NewUserWithOutUpdateName','NewUserWithOutUpdateFirstName','NewUserWithOutUpdateLastName','NewUserWithOutUpdateSkype',500,'NewUserWithOutUpdateGmail@gmail.com','@NewUserWithOutUpdateSlack',1,'00000000-0000-0001-0000-0000000000010');
