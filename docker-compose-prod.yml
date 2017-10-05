@@ -1,0 +1,120 @@
+version: "3"
+services:
+  gamification:
+    image: juja/gamification:latest
+    container_name: gamification
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/gamification/application.properties:/data/application.properties"
+    expose:
+      - "8080"
+
+
+  keepers:
+    image: juja/keepers:latest
+    container_name: keepers
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/keepers/application.properties:/data/application.properties"
+    expose:
+      - "8080"  
+  
+  teams:
+    image: juja/teams:latest
+    container_name: teams
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/teams/application.properties:/data/application.properties"
+    expose:
+      - "8080"    
+
+  users:
+    image: juja/users:latest
+    container_name: users
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/users/application.properties:/data/application.properties"
+    expose:
+      - "8080"  
+  
+  keepers-slack-bot:
+    image: juja/keepers-slack-bot:latest
+    container_name: keepers-slack-bot
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/keepers-slack-bot/application.properties:/data/application.properties"
+    links:
+      - keepers
+      - users
+    expose:
+      - "8080"  
+    depends_on:
+      - keepers
+      - users
+
+  teams-slack-bot:
+    image: juja/teams-slack-bot:latest
+    container_name: teams-slack-bot
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/teams-slack-bot/application.properties:/data/application.properties"
+    links:
+      - teams
+      - users
+    expose:
+      - "8080"    
+    depends_on:
+      - teams
+      - users
+
+  gamification-slack-bot:
+    image: juja/gamification-slack-bot:latest
+    container_name: gamification-slack-bot
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/gamification-slack-bot/application.properties:/data/application.properties"
+    links:
+      - gamification
+      - teams
+      - users
+    expose:
+      - "8080"  
+    depends_on:
+      - teams
+      - users
+      - gamification
+
+  web-ui:
+    image: juja/web-ui:latest
+    container_name: web-ui
+    expose:
+      - "80"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro" 
+
+  loadbalancer:
+    image: nginx:stable-alpine
+    container_name: loadbalancer
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/production/loadbalancer/loadbalancer.conf:/etc/nginx/conf.d/default.conf"
+    ports:
+      - "80:80"
+    links:
+      - web-ui
+      - gamification
+      - keepers
+      - teams
+      - users
+      - gamification-slack-bot
+      - teams-slack-bot
+      - keepers-slack-bot
+    depends_on:
+      - web-ui
+      - gamification
+      - keepers
+      - teams
+      - users
+      - gamification-slack-bot
+      - teams-slack-bot
+      - keepers-slack-bot
