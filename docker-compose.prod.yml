@@ -1,0 +1,29 @@
+version: "3"
+services:
+  gamification:
+    volumes:
+      - "./config/production/gamification/application.properties:/data/application.properties"
+  keepers:
+    volumes:
+      - "./config/production/keepers/application.properties:/data/application.properties"
+ 
+  teams:
+    volumes:
+      - "./config/production/teams/application.properties:/data/application.properties"
+
+  users:
+    volumes:
+      - "./config/production/users/application.properties:/data/application.properties"
+  
+  keepers-slack-bot:
+    volumes:
+      - "./config/production/keepers-slack-bot/application.properties:/data/application.properties"
+
+  teams-slack-bot:
+    volumes:
+      - "./config/production/teams-slack-bot/application.properties:/data/application.properties"
+
+  gamification-slack-bot:
+    volumes:
+      - "./config/production/gamification-slack-bot/application.properties:/data/application.properties"
+ 
