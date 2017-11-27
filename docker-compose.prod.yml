@@ -1,29 +1,37 @@
 version: "3"
 services:
   gamification:
+    image: juja/gamification:stable
     volumes:
       - "./config/production/gamification/application.properties:/data/application.properties"
+ 
   keepers:
+    image: juja/keepers:stable
     volumes:
       - "./config/production/keepers/application.properties:/data/application.properties"
  
   teams:
+    image: juja/teams:stable
     volumes:
       - "./config/production/teams/application.properties:/data/application.properties"
 
   users:
+    image: juja/users:stable
     volumes:
       - "./config/production/users/application.properties:/data/application.properties"
   
   keepers-slack-bot:
+    image: juja/keepers-slack-bot:stable
     volumes:
       - "./config/production/keepers-slack-bot/application.properties:/data/application.properties"
 
   teams-slack-bot:
+    image: juja/teams-slack-bot:stable
     volumes:
       - "./config/production/teams-slack-bot/application.properties:/data/application.properties"
 
   gamification-slack-bot:
+    image: juja/gamification-slack-bot:stable
     volumes:
       - "./config/production/gamification-slack-bot/application.properties:/data/application.properties"
  
