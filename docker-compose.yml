@@ -81,7 +81,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "./config/common/loadbalancer/loadbalancer.conf:/etc/nginx/conf.d/default.conf"
     ports:
-      - "80:80"
+      - "127.0.0.1:80:80"
     depends_on:
       - web-ui
       - gamification
