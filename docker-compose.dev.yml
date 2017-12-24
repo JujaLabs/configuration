@@ -88,3 +88,7 @@ services:
       - "./config/dev/gamification-slack-bot/application.properties:/data/application.properties"
     ports:
       - 8087:8080
+
+  loadbalancer:
+    ports:
+      - "127.0.0.1:8080:80"
